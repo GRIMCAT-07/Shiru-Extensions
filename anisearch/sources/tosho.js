@@ -43,7 +43,7 @@ export default new class Tosho extends AbstractSource {
       downloads: torrent_downloaded_count,
       hash: info_hash,
       size: total_size,
-      accuracy: anidb_fid ? 'high' : 'medium',
+      accuracy: (anidb_fid && !batch) ? 'high' : 'medium',
       type: batch ? 'batch' : undefined,
       date: new Date(timestamp * 1000)
     }))
@@ -61,7 +61,7 @@ export default new class Tosho extends AbstractSource {
 
     /** @type {import('./types').Tosho[]} */
     const data = await res.json()
-    return data.length ? this.#map(!episodeCount ? data : data.filter(entry => entry.num_files >= episodeCount), batch) : []
+    return data.length ? this.#map(!episodeCount ? data : data.filter(entry => entry.num_files > 1), batch) : []
   }
 
   /**
@@ -75,7 +75,7 @@ export default new class Tosho extends AbstractSource {
   /**
    * @type {import('./').SearchFunction}
    */
-  async batch({ anidbAid, resolution, episodeCount, exclusions }) { // batch no workie...
+  async batch({ anidbAid, resolution, episodeCount, exclusions }) {
     if (!anidbAid) throw new Error('No anidbAid provided')
     if (episodeCount == null) throw new Error('No episodeCount provided')
     return this.#query('?order=size-d&aid=' + anidbAid, { resolution, exclusions, episodeCount }, true)
@@ -86,7 +86,7 @@ export default new class Tosho extends AbstractSource {
    */
   async movie({ anidbAid, resolution, exclusions }) {
     if (!anidbAid) throw new Error('No anidbAid provided')
-    return this.#query('?aid=' + anidbAid, { resolution, exclusions }, true)
+    return this.#query('?aid=' + anidbAid, { resolution, exclusions })
   }
 
   /**

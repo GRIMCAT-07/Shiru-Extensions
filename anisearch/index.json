@@ -17,7 +17,7 @@
   {
     "id": "animetosho",
     "name": "Anime Tosho",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "main": "sources/tosho",
     "update": "gh:RockinChaos/Shiru-Extensions/anisearch",
     "type": "torrent",
