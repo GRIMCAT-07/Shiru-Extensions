@@ -4,7 +4,7 @@ import { parseNyaaFeed, episodePatterns, batchPatterns, convertSizeToBytes } fro
 const QUALITIES = ['2160', '1080', '720', '540', '480']
 
 export default new class Nyaa extends AbstractSource {
-    url = atob('aHR0cHM6Ly9ueWFhLnNp')
+    url = atob('aHR0cHM6Ly9ueWFhLnNpLz9wYWdlPXJzcw==')
 
     /**
      * @param {string[]} titles
@@ -23,7 +23,7 @@ export default new class Nyaa extends AbstractSource {
             resolution ? `-(${QUALITIES.filter(q => q !== resolution).join('|')})` : '',
             exclusions?.length ? `-(${exclusions.join('|')})` : ''
         ]
-        return `?page=rss&c=1_2&f=0&s=seeders&o=desc&q=${queryParts.join('')}`
+        return `&c=1_2&f=0&s=seeders&o=desc&q=${queryParts.join('')}`
     }
 
     /**
