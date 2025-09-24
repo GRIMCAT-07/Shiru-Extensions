@@ -1,0 +1,38 @@
+name: Sync Fork with Upstream (Default Branch Only)
+
+on:
+  schedule:
+    - cron: '0 * * * *'   # Runs every hour
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout fork
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+
+      - name: Set Git config
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Add upstream and fetch
+        run: |
+          git remote add upstream https://github.com/RockinChaos/Shiru-Extensions.git
+          git fetch upstream
+
+      - name: Rebase default branch with upstream
+        run: |
+          git checkout master || git checkout main
+          git rebase upstream/master || git rebase upstream/main || { echo "Rebase failed"; exit 1; }
+
+      - name: Push default branch to fork
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git push https://x-access-token:${TOKEN}@github.com/${{ github.repository }}.git HEAD --force
