@@ -23,7 +23,7 @@ export default new class Nyaa extends AbstractSource {
             resolution ? `-(${QUALITIES.filter(q => q !== resolution).join('|')})` : '',
             exclusions?.length ? `-(${exclusions.join('|')})` : ''
         ]
-        return `&c=1_2&f=0&s=seeders&o=desc&q=${queryParts.join('')}`
+        return `&c=1_0&f=0&s=seeders&o=desc&q=${queryParts.join('')}`
     }
 
     /**
