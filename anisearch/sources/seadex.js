@@ -17,7 +17,7 @@ export default new class SeaDex extends AbstractSource {
     })
     const res = await fetch(`${this.url}?${query}`)
 
-    /** @type {import('./types').Seadex} */
+    /** @type {import('./types').SeaDex} */
     const { items } = await res.json()
 
     const trs = items?.[0]?.expand?.trs
