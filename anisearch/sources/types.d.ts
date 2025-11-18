@@ -1,4 +1,4 @@
-export interface Seadex {
+export interface SeaDex {
     items: {
         alID: number
         expand: {
